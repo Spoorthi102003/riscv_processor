@@ -8,19 +8,30 @@ input [width-1:0]data_write;
 output reg [width-1:0]data_read;
 
 
-reg [width-1:0]mem[1500:0];
+reg [width-1:0]mem[255:0];
 
 initial
 begin
-mem[1000] = 32'h00000008;
-mem[1004] = 32'h00000010;
-mem[1008] = 32'h00000038;
-mem[1012] = 32'h00000024;
-mem[1016] = 32'h00000055;
-mem[1020] = 32'h00000022;
-mem[1024] = 32'h00000034;
-mem[1028] = 32'h00000033;
-mem[1032] = 32'h000000b3;
-mem[1036] = 32'h00000033;
-mem[1040] = 32'h000000b3;
+mem[0] = 32'h00000008;
+mem[4] = 32'h00000010;
+mem[8] = 32'h00000038;
+mem[12] = 32'h00000024;
+mem[16] = 32'h00000055;
+mem[20] = 32'h00000022;
+mem[24] = 32'h00000034;
+mem[28] = 32'h00000033;
+mem[32] = 32'h000000b3;
+mem[36] = 32'h00000033;
+mem[40] = 32'h000000b3;
 end
+
+
+always@(posedge clk) begin
+if(mem_write)
+	mem[addr_in] <= data_write; end
+	
+always@(posedge clk) begin
+if(mem_read)
+	data_read <= mem[addr_in]; end
+
+endmodule
