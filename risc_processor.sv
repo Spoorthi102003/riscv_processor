@@ -1,11 +1,13 @@
-module risc_processor #(parameter data_width = 32, addr_width = 5)(input clk,reset,output [data_width-1:0]alu_data_out);
+module risc_processor #(parameter data_width = 32, addr_width = 5)(input clk,output [data_width-1:0]alu_data_out);
 
-wire [data_width-1:0]pcaddr_out,pc_out,inst_out,write_data,data_rs1,data_rs2;
+wire [data_width-1:0]pc_next,pcaddr_out,pc_out,inst_out,data_rs1,data_rs2,data_final,imm_thirtytwo_value,operand_two,write_data_alu,pc_plus_signed_offset,data_read;
 wire [addr_width-1:0]add_rs1,add_rs2,add_rd;
 wire [6:0]func7,opcode;
 wire [2:0]func3;
-wire [3:0]alu_in;
-wire regwrite; 
+wire [3:0]control_line;
+wire [11:0]imm_value;
+wire regwrite,alusrc,mem_to_reg,mem_read,mem_write,branch,zero,branch_select; 
+wire [1:0]alu_op;
 
 pc #(data_width)p1(clk,pc_next,pc_out);
 pcaddr #(data_width)p2(pc_out,pcaddr_out);
